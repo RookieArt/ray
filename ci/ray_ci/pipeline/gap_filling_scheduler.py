@@ -1,11 +1,12 @@
 import subprocess
 from datetime import datetime, timedelta
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Any, Tuple
 
 from pybuildkite.buildkite import Buildkite
 
 
 BRANCH = "master"
+BLOCK_STEP_KEY = "unblock-me"
 
 
 class GapFillingScheduler:
@@ -29,7 +30,7 @@ class GapFillingScheduler:
         self.repo_checkout = repo_checkout
         self.days_ago = days_ago
 
-    def run(self) -> List[str]:
+    def run(self) -> List[Optional[str]]:
         """
         Create gap filling builds for the latest failing build. If dry_run is True,
         print the commits for each build but no builds will actually be created.
@@ -60,9 +61,33 @@ class GapFillingScheduler:
             .split("\n")
         )
 
-    def _trigger_build(self, commit: str) -> int:
-        # TODO(can): Implement this method
-        pass
+    def _find_blocked_build_and_job(
+        self, commit: str
+    ) -> Tuple[Optional[Dict], Optional[Dict]]:
+        for build in self._get_builds():
+            if build["commit"] != commit:
+                continue
+            if build["state"] != "blocked":
+                continue
+            for job in build["jobs"]:
+                if job.get("step_key") != BLOCK_STEP_KEY:
+                    continue
+
+                return build["number"], job["id"]
+
+        return None, None
+
+    def _trigger_build(self, commit: str) -> Optional[int]:
+        build, job = self._find_blocked_build_and_job(commit)
+        if not build or not job:
+            return None
+
+        self.buildkite.jobs().unblock_job(
+            self.buildkite_organization,
+            self.buildkite_pipeline,
+            build,
+            job,
+        )
 
     def _get_latest_commit_for_build_state(self, build_state: str) -> Optional[str]:
         latest_commits = self._get_latest_commits()
