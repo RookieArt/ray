@@ -30,14 +30,14 @@ class GapFillingScheduler:
         self.repo_checkout = repo_checkout
         self.days_ago = days_ago
 
-    def run(self) -> List[Optional[str]]:
+    def run(self) -> Dict[str, Optional[str]]:
         """
         Create gap filling builds for the latest failing build. If dry_run is True,
         print the commits for each build but no builds will actually be created.
         """
         commits = self.get_gap_commits()
 
-        return [self._trigger_build(commit) for commit in commits]
+        return {commit: self._trigger_build(commit) for commit in commits}
 
     def get_gap_commits(self) -> List[str]:
         """
@@ -108,7 +108,7 @@ class GapFillingScheduler:
                 [
                     "git",
                     "log",
-                    "--pretty=tformat:'%H'",
+                    "--pretty=tformat:%H",
                     f"--since={self.days_ago}.days",
                 ],
                 cwd=self.repo_checkout,
