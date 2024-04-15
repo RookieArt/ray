@@ -37,7 +37,7 @@ java_import(
         ":io_ray_ray_" + module
         for module in all_modules
     ] + [
-        ":all_tests",
+        #":all_tests",
     ],
 )
 

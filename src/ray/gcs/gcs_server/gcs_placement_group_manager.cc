@@ -38,7 +38,7 @@ void GcsPlacementGroup::UpdateState(
          placement_group_table_data_.placement_group_creation_timestamp_ms()) /
         1000;
     stats::STATS_scheduler_placement_time_s.Record(duration_s,
-                                                   {{"WorkloadType", "PlacementGroup"}});
+                                                   std::unordered_map<std::string, std::string>{{"WorkloadType", "PlacementGroup"}});
   }
   placement_group_table_data_.set_state(state);
   RefreshMetrics();
@@ -168,7 +168,7 @@ GcsPlacementGroupManager::GcsPlacementGroupManager(
         int64_t num_pg = placement_group_state_counter_->Get(key);
         ray::stats::STATS_placement_groups.Record(
             num_pg,
-            {{"State", rpc::PlacementGroupTableData::PlacementGroupState_Name(key)},
+            std::unordered_map<std::string, std::string>{{"State", rpc::PlacementGroupTableData::PlacementGroupState_Name(key)},
              {"Source", "gcs"}});
       });
   Tick();

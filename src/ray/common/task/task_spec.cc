@@ -552,10 +552,10 @@ void TaskSpecification::EmitTaskMetrics() const {
 
   if (IsActorCreationTask()) {
     stats::STATS_scheduler_placement_time_s.Record(duration_s,
-                                                   {{"WorkloadType", "Actor"}});
+                                                   std::unordered_map<std::string, std::string>{{"WorkloadType", "Actor"}});
   } else {
     stats::STATS_scheduler_placement_time_s.Record(duration_s,
-                                                   {{"WorkloadType", "Task"}});
+                                                   std::unordered_map<std::string, std::string>{{"WorkloadType", "Task"}});
   }
 }
 

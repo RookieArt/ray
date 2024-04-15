@@ -230,3 +230,7 @@ workflow_data/
 tag-mapping.json
 
 .bazeliskrc
+
+# by jerry
+.tags
+.log.*

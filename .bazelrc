@@ -182,6 +182,7 @@ build:debug -c dbg
 build:debug --copt="-g"
 build:debug --copt -fno-omit-frame-pointer
 build:debug --strip="never"
+build:debug --cxxopt="-D_GLIBCXX_DEBUG=1"
 
 # Undefined Behavior Sanitizer
 build:ubsan --strip=never
