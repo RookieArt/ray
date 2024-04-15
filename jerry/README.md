@@ -18,3 +18,16 @@ git push --tags
 
 ```
 
+# 如何编译
+## 注意区分 dbg 和 opt
+dbg/opt 不能混用, dbg 编译的版本, 需要配合 kbuild dbg 版本的 driver; 反之 opt 编译的版本, 需要配合 kbuild opt 版本的 driver
+
+conda 环境区别: dbg 和 opt 分别使用各自的 conda env, 例如 `ray_local` 和 `ray_local_opt`
+
+git 目录区别: 目前项目的编译目录没有区分 opt 和 dbg, 因此最好将本项目拷贝为两份, 例如 `ray.dbg` 和 `ray.opt`, 然后分别在各自的 conda env 下编译
+
+## 编译脚本
+见本目录下的 [`run_build`](./run_build.sh)
+
+**NOTE: 需要将脚本中的 `TARGET` 设置为正确的值(opt/dbg)**
+

@@ -232,5 +232,5 @@ tag-mapping.json
 .bazeliskrc
 
 # by jerry
-.tags
+.tags*
 .log.*
