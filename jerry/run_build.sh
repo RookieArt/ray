@@ -11,19 +11,23 @@ TARGET=dbg
 
 echo "build target: ${TARGET}"
 
-# conda
-eval "$(conda shell.bash hook)"
-source ~/miniconda3/etc/profile.d/conda.sh
-
 if [[ "x${TARGET}" == "xopt" ]]; then
-  conda activate ray_local_opt
-elif [[ "x${TARGET}" == "dbg" ]]; then
-  conda activate ray_local
+  export RAY_CONDA_ENV="ray_local_opt"
+elif [[ "x${TARGET}" == "xdbg" ]]; then
+  export RAY_CONDA_ENV="ray_local"
   export RAY_DEBUG_BUILD=debug
 else
   echo "ERROR!!! target not supportted: ${TARGET}, quit"
   exit 1
 fi
+
+# conda
+set +x
+echo "conda activate ${RAY_CONDA_ENV}"
+eval "$(conda shell.bash hook)"
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate ${RAY_CONDA_ENV}
+set -x
 
 # clean
 cd python && bazel clean --expunge && cd -

@@ -1,0 +1,1 @@
+jerry/run_distribute_cpp_lib.sh

@@ -31,3 +31,8 @@ git 目录区别: 目前项目的编译目录没有区分 opt 和 dbg, 因此最
 
 **NOTE: 需要将脚本中的 `TARGET` 设置为正确的值(opt/dbg)**
 
+# 发布头文件和 so 给 kbuild 使用
+kbuild 编译的时候, 无论使用的 dbg 还是 opt, 都可以使用 so 和 include 的一个版本即可(这和运行时不同)
+
+因此只需要发布 dbg 的 so 和 include 给 kbuild
+
