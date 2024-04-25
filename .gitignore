@@ -234,3 +234,4 @@ tag-mapping.json
 # by jerry
 .tags*
 .log.*
+jerry/env.sh

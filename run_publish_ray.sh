@@ -1,0 +1,1 @@
+jerry/run_publish_ray.sh

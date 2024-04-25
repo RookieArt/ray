@@ -26,6 +26,14 @@ conda 环境区别: dbg 和 opt 分别使用各自的 conda env, 例如 `ray_loc
 
 git 目录区别: 目前项目的编译目录没有区分 opt 和 dbg, 因此最好将本项目拷贝为两份, 例如 `ray.dbg` 和 `ray.opt`, 然后分别在各自的 conda env 下编译
 
+## 环境变量
+请将如下环境变量设置到 `./env.sh`
+```bash
+# opt or dbg
+TARGET=opt
+#TARGET=dbg
+```
+
 ## 编译脚本
 见本目录下的 [`run_build`](./run_build.sh)
 
@@ -35,4 +43,13 @@ git 目录区别: 目前项目的编译目录没有区分 opt 和 dbg, 因此最
 kbuild 编译的时候, 无论使用的 dbg 还是 opt, 都可以使用 so 和 include 的一个版本即可(这和运行时不同)
 
 因此只需要发布 dbg 的 so 和 include 给 kbuild
+```bash
+bash run_distribute_cpp_lib.sh
+```
+
+# 发布 ray 给生产环境使用
+编译完成后，可以发布给生产环境使用
+```bash
+bash run_publish_ray.sh
+```
 

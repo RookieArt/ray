@@ -5,9 +5,12 @@ set -ex
 export http_proxy=http://10.74.176.8:11080 https_proxy=http://10.74.176.8:11080 HTTP_PROXY=http://10.74.176.8:11080 HTTPS_PROXY=http://10.74.176.8:11080 no_proxy=".corp.kuaishou.com,10.*.*.*,172.*.*.*,*.local,localhost,127.0.0.1" NO_PROXY=".corp.kuaishou.com,10.*.*.*,172.*. *.*,*.local,localhost,127.0.0.1"
 
 
-# !!! PLEASE SET TARGET TO `opt` or `dbg` CAREFULLY !!!
-#TARGET=opt
-TARGET=dbg
+if [[ -f ./jerry/env.sh ]]; then
+  source ./jerry/env.sh
+else
+  echo "ERROR!!! please create ./jerry/env.sh and set environment variables in it !!!"
+  exit 1
+fi
 
 echo "build target: ${TARGET}"
 
